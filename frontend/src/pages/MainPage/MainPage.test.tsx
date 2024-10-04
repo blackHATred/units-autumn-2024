@@ -7,7 +7,7 @@ import { Product } from '../../types';
 
 // Мокаем хуки, которые используются в MainPage
 jest.mock('../../hooks', () => ({
-    // хук с временем сохраняем, а useProducts мокаем
+    // хук со временем сохраняем, а useProducts мокаем
     ...jest.requireActual('../../hooks'),
     useProducts: jest.fn(),
 }));
@@ -39,62 +39,54 @@ describe('MainPage test', () => {
 
     beforeEach(() => {
         (useProducts as jest.Mock).mockReturnValue(products);
-        jest.useFakeTimers(); // Переключаемся на фейковые таймеры
 
-        // Замокируем глобальные функции setInterval и clearInterval
+        // мокаем и следим за setInterval и clearInterval
+        jest.useFakeTimers();
         setIntervalSpy = jest.spyOn(global, 'setInterval');
         clearIntervalSpy = jest.spyOn(global, 'clearInterval');
-
-        // Мокаем Date и toLocaleTimeString, чтобы вернуть фиксированное время
         jest.spyOn(global, 'Date').mockImplementation(
             () =>
                 ({
-                    toLocaleTimeString: () => '12:00:00', // Возвращаем фиксированное время
+                    toLocaleTimeString: () => '12:00:00',
                 } as unknown as Date)
         );
     });
 
     afterEach(() => {
-        jest.clearAllTimers(); // Очищаем все таймеры после каждого теста
-
-        // Восстанавливаем оригинальные реализации
+        jest.clearAllTimers();
         setIntervalSpy.mockRestore();
         clearIntervalSpy.mockRestore();
-
-        // Восстанавливаем оригинальный Date
         (global.Date as unknown as jest.Mock).mockRestore();
     });
 
     it('should display the current time and update every second', () => {
-        // Рендерим MainPage
         const { getByText } = render(<MainPage />);
 
         const initialTime = new Date().toLocaleTimeString('ru-RU');
 
-        // Проверяем, что начальное время отображается
+        // проверяем, что начальное время отображается
         expect(getByText(initialTime)).toBeInTheDocument();
 
-        // Прокручиваем время на 1 секунду вперед
+        // прокручиваем время на 1 секунду вперед
         act(() => {
             jest.advanceTimersByTime(1000);
         });
 
         const updatedTime = new Date().toLocaleTimeString('ru-RU');
 
-        // Проверяем, что время обновилось
+        // проверяем, что время обновилось
         expect(getByText(updatedTime)).toBeInTheDocument();
     });
 
     it('should clear the interval on unmount', () => {
         const { unmount } = render(<MainPage />);
 
-        // Проверяем, что setInterval был вызван
+        // проверяем, что setInterval был вызван
         expect(setIntervalSpy).toHaveBeenCalledTimes(1);
 
-        // Размонтируем компонент
         unmount();
 
-        // Проверяем, что clearInterval был вызван при размонтировании
+        // проверяем, что clearInterval был вызван
         expect(clearIntervalSpy).toHaveBeenCalledTimes(1);
     });
 
@@ -106,9 +98,10 @@ describe('MainPage test', () => {
 
     it('should call callback when category click', () => {
         const rendered = render(<MainPage />);
-
+        // есть два элемента с текстом "Одежда": кнопка выбора категории и непосредственно категория на карточке,
+        // здесь нужна кнопка выбора категории
         fireEvent.click(rendered.getAllByText('Одежда')[0]);
-        // Проверяем, что категория была выбрана
+        // проверяем, что категория была выбрана
         expect(rendered.getByText('name2')).toBeInTheDocument();
     });
 
@@ -117,7 +110,7 @@ describe('MainPage test', () => {
 
         fireEvent.click(rendered.getAllByText('Одежда')[0]);
         fireEvent.click(rendered.getAllByText('Одежда')[0]);
-        // Проверяем, что все продукты отображаются
+        // проверяем, что все продукты отображаются
         expect(rendered.getByText('name')).toBeInTheDocument();
         expect(rendered.getByText('name2')).toBeInTheDocument();
     });
