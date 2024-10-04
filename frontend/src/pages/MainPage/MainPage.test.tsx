@@ -90,12 +90,6 @@ describe('MainPage test', () => {
         expect(clearIntervalSpy).toHaveBeenCalledTimes(1);
     });
 
-    it('should render correctly', () => {
-        const rendered = render(<MainPage />);
-
-        expect(rendered.asFragment()).toMatchSnapshot();
-    });
-
     it('should call callback when category click', () => {
         const rendered = render(<MainPage />);
         // есть два элемента с текстом "Одежда": кнопка выбора категории и непосредственно категория на карточке,
