@@ -90,9 +90,15 @@ describe('MainPage test', () => {
         expect(clearIntervalSpy).toHaveBeenCalledTimes(1);
     });
 
+    it('should render correctly', () => {
+        const rendered = render(<MainPage />);
+
+        expect(rendered.asFragment()).toMatchSnapshot();
+    });
+
     it('should call callback when category click', () => {
         const rendered = render(<MainPage />);
-        // есть 2 элемента с текстом "Одежда": кнопка выбора категории и непосредственно категория на карточке,
+        // есть два элемента с текстом "Одежда": кнопка выбора категории и непосредственно категория на карточке,
         // здесь нужна кнопка выбора категории
         fireEvent.click(rendered.getAllByText('Одежда')[0]);
         // проверяем, что категория была выбрана
