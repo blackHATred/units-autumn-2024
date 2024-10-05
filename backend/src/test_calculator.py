@@ -139,7 +139,7 @@ class TestCalculator(unittest.TestCase):
         self.assertEqual(self.calculator.absolute(0), 0)
 
     def test_abs_infinity(self):
-        self.assertEqual(self.calculator.absolute(float('inf')), float('inf'))
+        self.assertEqual(self.calculator.absolute(-float('inf')), float('inf'))
 
     def test_abs_wrong_type(self):
         self.assertRaises(TypeError, self.calculator.absolute, 'a')
@@ -178,7 +178,7 @@ class TestCalculator(unittest.TestCase):
         self.assertEqual(self.calculator.ln(1), 0)
 
     def test_ln_floats(self):
-        self.assertAlmostEqual(self.calculator.ln(2.718281828459045), 1)
+        self.assertEqual(self.calculator.ln(math.e), 1)
 
     def test_ln_negative_numbers(self):
         self.assertRaises(ValueError, self.calculator.ln, -1)
@@ -199,7 +199,7 @@ class TestCalculator(unittest.TestCase):
         self.assertEqual(self.calculator.log(1, 10), 0)
 
     def test_log_floats(self):
-        self.assertEqual(self.calculator.log(100, 10), 2)
+        self.assertEqual(self.calculator.log(100., 10.), 2)
 
     def test_log_negative_numbers(self):
         self.assertRaises(ValueError, self.calculator.log, -1, 10)
@@ -220,7 +220,7 @@ class TestCalculator(unittest.TestCase):
         self.assertEqual(self.calculator.sqrt(1), 1)
 
     def test_sqrt_floats(self):
-        self.assertEqual(self.calculator.sqrt(4), 2)
+        self.assertEqual(self.calculator.sqrt(4.), 2)
 
     def test_sqrt_negative_numbers(self):
         self.assertAlmostEqual(self.calculator.sqrt(-1), 1j)
@@ -241,7 +241,7 @@ class TestCalculator(unittest.TestCase):
         self.assertEqual(self.calculator.nth_root(1, 2), 1)
 
     def test_nth_root_floats(self):
-        self.assertEqual(self.calculator.nth_root(27, 3), 3)
+        self.assertEqual(self.calculator.nth_root(27., 3.), 3)
 
     def test_nth_root_negative_numbers(self):
         self.assertAlmostEqual(self.calculator.nth_root(-1, 3), 0.5 + 0.8660254037844386j)
