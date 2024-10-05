@@ -70,3 +70,41 @@ exports[`ProductCard test should render correctly without image 1`] = `
   </div>
 </DocumentFragment>
 `;
+
+exports[`ProductCard test should render correctly without price symbol 1`] = `
+<DocumentFragment>
+  <div
+    class="product-card"
+  >
+    <div
+      class="product-card__text"
+    >
+      <h2
+        class="product-card__name"
+      >
+        name
+      </h2>
+      <div
+        class="product-card__description"
+      >
+        description
+      </div>
+      <h1
+        class="product-card__price"
+      >
+        100 ₽
+      </h1>
+      <div
+        class="product-card__category"
+      >
+        Электроника
+      </div>
+    </div>
+    <img
+      alt="name"
+      class="product-card__image"
+      src="imgUrl"
+    />
+  </div>
+</DocumentFragment>
+`;

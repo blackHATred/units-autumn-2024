@@ -34,4 +34,19 @@ describe('ProductCard test', () => {
 
         expect(rendered.asFragment()).toMatchSnapshot();
     });
+
+    it('should render correctly without price symbol', () => {
+        const rendered = render(
+            <ProductCard
+                name="name"
+                description="description"
+                price={100}
+                category="Электроника"
+                imgUrl="imgUrl"
+                id={6}
+            />
+        );
+
+        expect(rendered.asFragment()).toMatchSnapshot();
+    });
 });
