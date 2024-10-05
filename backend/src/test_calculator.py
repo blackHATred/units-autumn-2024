@@ -8,6 +8,10 @@ class TestCalculator(unittest.TestCase):
     def setUp(self):
         self.calculator = Calculator()
 
+    """
+    Тесты для сложения
+    """
+
     def test_add_integers(self):
         self.assertEqual(self.calculator.addition(1, 2), 3)
 
@@ -36,6 +40,10 @@ class TestCalculator(unittest.TestCase):
 
     def test_add_complex_numbers(self):
         self.assertEqual(self.calculator.addition(1 + 1j, 1 + 1j), 2 + 2j)
+
+    """
+    Тесты для умножения
+    """
 
     def test_multiply_integers(self):
         self.assertEqual(self.calculator.multiplication(1, 2), 2)
@@ -69,6 +77,10 @@ class TestCalculator(unittest.TestCase):
     def test_multiply_wrong_type(self):
         self.assertRaises(TypeError, self.calculator.multiplication, 'a', 'a')
 
+    """
+    Тесты для вычитания
+    """
+
     def test_subtract_integers(self):
         self.assertEqual(self.calculator.subtraction(1, 2), -1)
 
@@ -95,6 +107,10 @@ class TestCalculator(unittest.TestCase):
 
     def test_subtract_complex_numbers(self):
         self.assertEqual(self.calculator.subtraction(1 + 1j, 1 + 1j), 0 + 0j)
+
+    """
+    Тесты для деления
+    """
 
     def test_divide_integers(self):
         self.assertEqual(self.calculator.division(1, 2), 0.5)
@@ -126,6 +142,10 @@ class TestCalculator(unittest.TestCase):
     def test_divide_infinities(self):
         self.assertTrue(math.isnan(self.calculator.division(float('inf'), float('inf'))))
 
+    """
+    Тесты для модуля
+    """
+
     def test_abs_integers(self):
         self.assertEqual(self.calculator.absolute(1), 1)
 
@@ -147,6 +167,10 @@ class TestCalculator(unittest.TestCase):
     def test_abs_complex_numbers(self):
         self.assertAlmostEqual(self.calculator.absolute(1 + 1j), 1.4142135623730951)
 
+    """
+    Тесты для возведения в степень
+    """
+
     def test_degree_integers(self):
         self.assertEqual(self.calculator.degree(2, 3), 8)
 
@@ -165,14 +189,24 @@ class TestCalculator(unittest.TestCase):
     def test_degree_zero_degree(self):
         self.assertEqual(self.calculator.degree(2, 0), 1)
 
-    def test_degree_infinity(self):
+    def test_degree_infinity_by_infinity(self):
         self.assertEqual(self.calculator.degree(2, float('inf')), float('inf'))
+
+    def test_degree_infinity_by_zero(self):
+        self.assertEqual(self.calculator.degree(float('inf'), 0), 1)
+
+    def test_degree_infinity_by_negative(self):
+        self.assertEqual(self.calculator.degree(float('inf'), -1), 0)
 
     def test_degree_wrong_type(self):
         self.assertRaises(TypeError, self.calculator.degree, 1, 'a')
 
     def test_degree_complex_numbers(self):
         self.assertEqual(self.calculator.degree(1 + 1j, 2), 2j)
+
+    """
+    Тесты для натурального логарифма
+    """
 
     def test_ln_integers(self):
         self.assertEqual(self.calculator.ln(1), 0)
@@ -195,6 +229,10 @@ class TestCalculator(unittest.TestCase):
     def test_ln_complex_numbers(self):
         self.assertRaises(TypeError, self.calculator.ln, 1 + 1j)
 
+    """
+    Тесты для логарифма с произвольным основанием
+    """
+
     def test_log_integers(self):
         self.assertEqual(self.calculator.log(1, 10), 0)
 
@@ -216,6 +254,10 @@ class TestCalculator(unittest.TestCase):
     def test_log_complex_numbers(self):
         self.assertRaises(TypeError, self.calculator.log, 1 + 1j, 10)
 
+    """
+    Тесты для квадратного корня
+    """
+
     def test_sqrt_integers(self):
         self.assertEqual(self.calculator.sqrt(1), 1)
 
@@ -236,6 +278,10 @@ class TestCalculator(unittest.TestCase):
 
     def test_sqrt_complex_numbers(self):
         self.assertAlmostEqual(self.calculator.sqrt(1 + 1j), 1.09868411346781 + 0.45508986056222733j)
+
+    """
+    Тесты для корня произвольной степени
+    """
 
     def test_nth_root_integers(self):
         self.assertEqual(self.calculator.nth_root(1, 2), 1)
