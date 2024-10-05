@@ -189,7 +189,7 @@ class TestCalculator(unittest.TestCase):
     def test_degree_zero_degree(self):
         self.assertEqual(self.calculator.degree(2, 0), 1)
 
-    def test_degree_infinity_by_infinity(self):
+    def test_degree_integer_by_infinity(self):
         self.assertEqual(self.calculator.degree(2, float('inf')), float('inf'))
 
     def test_degree_infinity_by_zero(self):
