@@ -30,12 +30,14 @@ class TestCalculator(unittest.TestCase):
     def test_add_wrong_type(self):
         self.assertRaises(TypeError, self.calculator.addition, 1, 'a')
 
-    def test_add_infinities(self):
+    def test_add_positive_infinities(self):
         # Положительная бесконечность
         self.assertEqual(self.calculator.addition(float('inf'), float('inf')), float('inf'))
-        # const + inf = inf
+
+    def test_add_const_to_inf(self):
         self.assertEqual(self.calculator.addition(1, float('inf')), float('inf'))
-        # математически неопределенное выражение
+
+    def test_add_minus_inf_to_inf(self):
         self.assertTrue(math.isnan(self.calculator.addition(-float('inf'), float('inf'))))
 
     def test_add_complex_numbers(self):
@@ -63,12 +65,13 @@ class TestCalculator(unittest.TestCase):
     def test_multiply_minus_one(self):
         self.assertEqual(self.calculator.multiplication(1, -1), -1)
 
-    def test_multiply_infinities(self):
-        # положительная бесконечность
+    def test_multiply_int_by_inf(self):
         self.assertEqual(self.calculator.multiplication(1, float('inf')), float('inf'))
-        # математически неопределенное выражение
+
+    def test_multiply_inf_by_zero(self):
         self.assertTrue(math.isnan(self.calculator.multiplication(float('inf'), 0)))
-        # -inf * inf = - inf
+
+    def test_multiply_minus_inf_by_inf(self):
         self.assertEqual(self.calculator.multiplication(-float('inf'), float('inf')), -float('inf'))
 
     def test_multiply_complex_numbers(self):
@@ -99,10 +102,10 @@ class TestCalculator(unittest.TestCase):
     def test_subtract_wrong_type(self):
         self.assertRaises(TypeError, self.calculator.subtraction, 1, 'a')
 
-    def test_subtract_infinities(self):
-        # inf - const = inf
+    def test_subtract_int_from_inf(self):
         self.assertEqual(self.calculator.subtraction(float('inf'), 1), float('inf'))
-        # математически неопределенное выражение
+
+    def test_subtract_inf_from_inf(self):
         self.assertTrue(math.isnan(self.calculator.subtraction(float('inf'), float('inf'))))
 
     def test_subtract_complex_numbers(self):

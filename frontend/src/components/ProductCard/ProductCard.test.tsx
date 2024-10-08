@@ -1,11 +1,13 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { ProductCard } from './ProductCard';
 
 describe('ProductCard test', () => {
-    it('should render correctly', () => {
-        const rendered = render(
+    let rendered: RenderResult;
+
+    beforeEach(() => {
+        rendered = render(
             <ProductCard
                 name="name"
                 description="description"
@@ -16,12 +18,14 @@ describe('ProductCard test', () => {
                 id={6}
             />
         );
+    });
 
+    it('should render correctly', () => {
         expect(rendered.asFragment()).toMatchSnapshot();
     });
 
     it('should render correctly without image', () => {
-        const rendered = render(
+        rendered = render(
             <ProductCard
                 name="name"
                 description="description"

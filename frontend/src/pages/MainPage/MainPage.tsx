@@ -23,8 +23,8 @@ export const MainPage = () => {
     return (
         <div className="main-page">
             <h2 className="main-page__title">VK Маркет</h2>
-            <h3>{currentTime}</h3>
-            <div className="main-page__parameters">
+            <h3 data-testid="current_time">{currentTime}</h3>
+            <div className="main-page__parameters" data-testid="categories">
                 <Categories
                     selectedCategories={selectedCategories}
                     onCategoryClick={onCategoryClick}

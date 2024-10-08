@@ -13,7 +13,7 @@ export const ProductCard: FC<Product> = ({
     imgUrl,
 }) => {
     return (
-        <div className="product-card">
+        <div className="product-card" data-testid="product_container">
             <div className="product-card__text">
                 <h2 className="product-card__name">{name}</h2>
                 <div className="product-card__description">{description}</div>

@@ -10,11 +10,14 @@ exports[`MainPage test should render correctly 1`] = `
     >
       VK Маркет
     </h2>
-    <h3>
+    <h3
+      data-testid="current_time"
+    >
       12:00:00
     </h3>
     <div
       class="main-page__parameters"
+      data-testid="categories"
     >
       <div
         class="categories"
@@ -38,6 +41,7 @@ exports[`MainPage test should render correctly 1`] = `
     </div>
     <div
       class="product-card"
+      data-testid="product_container"
     >
       <div
         class="product-card__text"
@@ -71,6 +75,7 @@ exports[`MainPage test should render correctly 1`] = `
     </div>
     <div
       class="product-card"
+      data-testid="product_container"
     >
       <div
         class="product-card__text"

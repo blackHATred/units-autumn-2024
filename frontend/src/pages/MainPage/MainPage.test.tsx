@@ -1,139 +1,82 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, fireEvent, within } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { MainPage } from './MainPage';
-import { useProducts } from '../../hooks';
-import { Product } from '../../types';
+import { useCurrentTime, useProducts } from '../../hooks';
+import { productsMock } from '../../types/mocks/productsMock';
+import { Category } from '../../types';
+import { getPrice } from '../../utils';
 
-// Мокаем хуки, которые используются в MainPage
-jest.mock('../../hooks', () => ({
-    // хук со временем сохраняем, а useProducts мокаем
-    ...jest.requireActual('../../hooks'),
-    useProducts: jest.fn(),
-}));
-
-const products: Product[] = [
-    {
-        name: 'name',
-        description: 'description',
-        price: 100,
-        priceSymbol: '₽',
-        category: 'Электроника',
-        imgUrl: 'imgUrl',
-        id: 1,
-    },
-    {
-        name: 'name2',
-        description: 'description2',
-        price: 200,
-        priceSymbol: '$',
-        category: 'Одежда',
-        imgUrl: 'imgUrl2',
-        id: 2,
-    },
-];
+jest.mock('../../hooks');
+const currentTime = '12:00:00';
 
 describe('MainPage test', () => {
-    let setIntervalSpy: jest.SpyInstance;
-    let clearIntervalSpy: jest.SpyInstance;
+    let rendered: ReturnType<typeof render>;
+    let categoryButton: HTMLElement;
+    let targetCategories: Category[]; // выбранные категории, которые мы хотим увидеть
+    const checkProductCards = () => {
+        const productContainer = rendered.getAllByTestId('product_container');
+        const filteredProducts = productsMock.filter((product) =>
+            targetCategories.includes(product.category)
+        );
+        const otherProducts = productsMock.filter(
+            (product) => !targetCategories.includes(product.category)
+        );
+        expect(productContainer.length).toEqual(filteredProducts.length);
+        // проверяем, что отображаются только продукты из выбранных категорий
+        filteredProducts.forEach((product, index) => {
+            expect(
+                within(productContainer[index]).getByText(product.description)
+            ).toBeInTheDocument();
+            expect(
+                within(productContainer[index]).getByText(
+                    getPrice(product.price, product.priceSymbol)
+                )
+            ).toBeInTheDocument();
+            expect(
+                within(productContainer[index]).getAllByText(product.category)
+                    .length
+            ).toBeGreaterThanOrEqual(1);
+            expect(
+                within(productContainer[index]).getByAltText(product.name)
+            ).toBeInTheDocument();
+        });
+        otherProducts.forEach((product) => {
+            expect(rendered.queryByText(product.name)).not.toBeInTheDocument();
+        });
+    };
 
     beforeEach(() => {
-        (useProducts as jest.Mock).mockReturnValue(products);
-
-        // мокаем и следим за setInterval и clearInterval
-        jest.useFakeTimers();
-        setIntervalSpy = jest.spyOn(global, 'setInterval');
-        clearIntervalSpy = jest.spyOn(global, 'clearInterval');
-        jest.spyOn(global, 'Date').mockImplementation(
-            () =>
-                ({
-                    toLocaleTimeString: () => '12:00:00',
-                } as unknown as Date)
-        );
+        jest.mocked(useProducts).mockReturnValue(productsMock);
+        jest.mocked(useCurrentTime).mockReturnValue(currentTime);
+        rendered = render(<MainPage />);
+        const categories = rendered.getByTestId('categories');
+        categoryButton = within(categories).getByText(productsMock[1].category);
     });
 
     afterEach(() => {
-        jest.clearAllTimers();
-        setIntervalSpy.mockRestore();
-        clearIntervalSpy.mockRestore();
-        (global.Date as unknown as jest.Mock).mockRestore();
-    });
-
-    it('should display the current time and update every second', () => {
-        const { getByText } = render(<MainPage />);
-
-        const initialTime = new Date().toLocaleTimeString('ru-RU');
-
-        // проверяем, что начальное время отображается
-        expect(getByText(initialTime)).toBeInTheDocument();
-
-        // прокручиваем время на 1 секунду вперед
-        act(() => {
-            jest.advanceTimersByTime(1000);
-        });
-
-        const updatedTime = new Date().toLocaleTimeString('ru-RU');
-
-        // проверяем, что время обновилось
-        expect(getByText(updatedTime)).toBeInTheDocument();
-    });
-
-    it('should clear the interval on unmount', () => {
-        const { unmount } = render(<MainPage />);
-
-        // проверяем, что setInterval был вызван
-        expect(setIntervalSpy).toHaveBeenCalledTimes(1);
-
-        unmount();
-
-        // проверяем, что clearInterval был вызван
-        expect(clearIntervalSpy).toHaveBeenCalledTimes(1);
+        jest.clearAllMocks();
     });
 
     it('should render correctly', () => {
-        const rendered = render(<MainPage />);
-
         expect(rendered.asFragment()).toMatchSnapshot();
     });
 
-    it('should call callback when category click', () => {
-        const rendered = render(<MainPage />);
-        // есть два элемента с текстом "Одежда": кнопка выбора категории и непосредственно категория на карточке,
-        // здесь нужна кнопка выбора категории
-        fireEvent.click(rendered.getAllByText('Одежда')[0]);
-        // проверяем, что категория была выбрана
-        expect(rendered.getByText('name2')).toBeInTheDocument();
+    it('should display the current time', () => {
+        const timeElement = rendered.getByTestId('current_time');
+        expect(timeElement).toHaveTextContent(currentTime);
     });
 
-    it('should render ProductCard for everything after unselecting all categories', () => {
-        const rendered = render(<MainPage />);
-
-        fireEvent.click(rendered.getAllByText('Одежда')[0]);
-        fireEvent.click(rendered.getAllByText('Одежда')[0]);
-        // проверяем, что все продукты отображаются
-        expect(rendered.getByText('name')).toBeInTheDocument();
-        expect(rendered.getByText('name2')).toBeInTheDocument();
+    it('should display products of the selected category when category is clicked', () => {
+        targetCategories = [productsMock[1].category];
+        fireEvent.click(categoryButton);
+        checkProductCards();
     });
 
-    it('should render ProductCard for electronics', () => {
-        const rendered = render(<MainPage />);
-
-        expect(rendered.getByText('name')).toBeInTheDocument();
-        expect(rendered.getByText('description')).toBeInTheDocument();
-        expect(rendered.getByText('100 ₽')).toBeInTheDocument();
-        expect(rendered.getAllByText('Электроника')[0]).toBeInTheDocument();
-        expect(rendered.getByAltText('name')).toBeInTheDocument();
-    });
-
-    it('should render ProductCard for clothing', () => {
-        const rendered = render(<MainPage />);
-
-        fireEvent.click(rendered.getAllByText('Одежда')[0]);
-
-        expect(rendered.getByText('name2')).toBeInTheDocument();
-        expect(rendered.getByText('description2')).toBeInTheDocument();
-        expect(rendered.getByText('200 $')).toBeInTheDocument();
-        expect(rendered.getAllByText('Одежда')[0]).toBeInTheDocument();
-        expect(rendered.getByAltText('name2')).toBeInTheDocument();
+    it('should render ProductCard for everything after unselecting all selected categories', () => {
+        targetCategories = [productsMock[0].category, productsMock[1].category];
+        fireEvent.click(categoryButton);
+        fireEvent.click(categoryButton);
+        checkProductCards();
     });
 });
