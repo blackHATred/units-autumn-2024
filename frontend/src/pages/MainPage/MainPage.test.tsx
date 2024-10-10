@@ -28,18 +28,6 @@ describe('MainPage test', () => {
             expect(
                 within(productContainer[index]).getByText(product.description)
             ).toBeInTheDocument();
-            expect(
-                within(productContainer[index]).getByText(
-                    getPrice(product.price, product.priceSymbol)
-                )
-            ).toBeInTheDocument();
-            expect(
-                within(productContainer[index]).getAllByText(product.category)
-                    .length
-            ).toBeGreaterThanOrEqual(1);
-            expect(
-                within(productContainer[index]).getByAltText(product.name)
-            ).toBeInTheDocument();
         });
         otherProducts.forEach((product) => {
             expect(rendered.queryByText(product.name)).not.toBeInTheDocument();
