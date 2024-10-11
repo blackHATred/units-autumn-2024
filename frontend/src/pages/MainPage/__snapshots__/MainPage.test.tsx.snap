@@ -49,17 +49,17 @@ exports[`MainPage test should render correctly 1`] = `
         <h2
           class="product-card__name"
         >
-          name
+          IPhone 14 Pro
         </h2>
         <div
           class="product-card__description"
         >
-          description
+          Latest iphone, buy it now
         </div>
         <h1
           class="product-card__price"
         >
-          100 ₽
+          999 $
         </h1>
         <div
           class="product-card__category"
@@ -68,9 +68,9 @@ exports[`MainPage test should render correctly 1`] = `
         </div>
       </div>
       <img
-        alt="name"
+        alt="IPhone 14 Pro"
         class="product-card__image"
-        src="imgUrl"
+        src="/iphone.png"
       />
     </div>
     <div
@@ -83,17 +83,17 @@ exports[`MainPage test should render correctly 1`] = `
         <h2
           class="product-card__name"
         >
-          name2
+          Костюм гуся
         </h2>
         <div
           class="product-card__description"
         >
-          description2
+          Запускаем гуся, работяги
         </div>
         <h1
           class="product-card__price"
         >
-          200 $
+          1 000 ₽
         </h1>
         <div
           class="product-card__category"
@@ -101,11 +101,69 @@ exports[`MainPage test should render correctly 1`] = `
           Одежда
         </div>
       </div>
+    </div>
+    <div
+      class="product-card"
+      data-testid="product_container"
+    >
+      <div
+        class="product-card__text"
+      >
+        <h2
+          class="product-card__name"
+        >
+          Настольная лампа
+        </h2>
+        <div
+          class="product-card__description"
+        >
+          Говорят, что ее использовали в pixar
+        </div>
+        <h1
+          class="product-card__price"
+        >
+          699 ₽
+        </h1>
+        <div
+          class="product-card__category"
+        >
+          Для дома
+        </div>
+      </div>
       <img
-        alt="name2"
+        alt="Настольная лампа"
         class="product-card__image"
-        src="imgUrl2"
+        src="/lamp.png"
       />
+    </div>
+    <div
+      class="product-card"
+      data-testid="product_container"
+    >
+      <div
+        class="product-card__text"
+      >
+        <h2
+          class="product-card__name"
+        >
+          Принтер
+        </h2>
+        <div
+          class="product-card__description"
+        >
+          Незаменимая вещь для студента
+        </div>
+        <h1
+          class="product-card__price"
+        >
+          7 000 ₽
+        </h1>
+        <div
+          class="product-card__category"
+        >
+          Электроника
+        </div>
+      </div>
     </div>
   </div>
 </DocumentFragment>

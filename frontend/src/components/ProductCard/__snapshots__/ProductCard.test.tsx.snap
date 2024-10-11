@@ -12,17 +12,17 @@ exports[`ProductCard test should render correctly 1`] = `
       <h2
         class="product-card__name"
       >
-        name
+        IPhone 14 Pro
       </h2>
       <div
         class="product-card__description"
       >
-        description
+        Latest iphone, buy it now
       </div>
       <h1
         class="product-card__price"
       >
-        100 $
+        999 $
       </h1>
       <div
         class="product-card__category"
@@ -31,9 +31,9 @@ exports[`ProductCard test should render correctly 1`] = `
       </div>
     </div>
     <img
-      alt="name"
+      alt="IPhone 14 Pro"
       class="product-card__image"
-      src="imgUrl"
+      src="/iphone.png"
     />
   </div>
 </DocumentFragment>
@@ -51,22 +51,22 @@ exports[`ProductCard test should render correctly without image 1`] = `
       <h2
         class="product-card__name"
       >
-        name
+        Костюм гуся
       </h2>
       <div
         class="product-card__description"
       >
-        description
+        Запускаем гуся, работяги
       </div>
       <h1
         class="product-card__price"
       >
-        100 $
+        1 000 ₽
       </h1>
       <div
         class="product-card__category"
       >
-        Электроника
+        Одежда
       </div>
     </div>
   </div>
@@ -85,28 +85,28 @@ exports[`ProductCard test should render correctly without price symbol 1`] = `
       <h2
         class="product-card__name"
       >
-        name
+        Настольная лампа
       </h2>
       <div
         class="product-card__description"
       >
-        description
+        Говорят, что ее использовали в pixar
       </div>
       <h1
         class="product-card__price"
       >
-        100 ₽
+        699 ₽
       </h1>
       <div
         class="product-card__category"
       >
-        Электроника
+        Для дома
       </div>
     </div>
     <img
-      alt="name"
+      alt="Настольная лампа"
       class="product-card__image"
-      src="imgUrl"
+      src="/lamp.png"
     />
   </div>
 </DocumentFragment>

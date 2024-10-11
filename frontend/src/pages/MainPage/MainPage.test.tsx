@@ -5,7 +5,6 @@ import { MainPage } from './MainPage';
 import { useCurrentTime, useProducts } from '../../hooks';
 import { productsMock } from '../../types/mocks/productsMock';
 import { Category } from '../../types';
-import { getPrice } from '../../utils';
 
 jest.mock('../../hooks');
 const currentTime = '12:00:00';
@@ -62,7 +61,11 @@ describe('MainPage test', () => {
     });
 
     it('should render ProductCard for everything after unselecting all selected categories', () => {
-        targetCategories = [productsMock[0].category, productsMock[1].category];
+        targetCategories = [
+            productsMock[0].category,
+            productsMock[1].category,
+            productsMock[2].category,
+        ];
         fireEvent.click(categoryButton);
         fireEvent.click(categoryButton);
         checkProductCards();
